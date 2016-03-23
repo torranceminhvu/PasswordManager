@@ -228,21 +228,14 @@ public class MainGUI extends javax.swing.JFrame {
             String URL = urlText.getText();
             String username = usernameText.getText();
             String password = passwordText.getText();
-            
+
             list.insert(URL, username, password);
-            /*
-            if (check == true) {
-                JOptionPane.showMessageDialog(null, "Insert Success!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Failure, Duplicate Insert!");
-            }*/
             urlText.setText("");
             usernameText.setText("");
             passwordText.setText("");
             save();
-            listAll(); 
-            
-            
+            listAll();
+
         } catch (IOException ex) {
             Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -298,7 +291,7 @@ public class MainGUI extends javax.swing.JFrame {
                 listAll();
                 save();
             }
-            
+
         } catch (IOException ex) {
             Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -306,20 +299,20 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void searchButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchButtonMouseClicked
         Website w;
-        
+
         if (!urlText.getText().equals("")) {
-           w = list.search(urlText.getText());
-           if (w == null) {
+            w = list.search(urlText.getText());
+            if (w == null) {
                 JOptionPane.showMessageDialog(null, "URL could not be found!");
                 listAll();
-           } else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Search Success!");
                 model.setRowCount(0);
                 model.addRow(new String[]{w.getUrl(), w.getUsername(), w.getPassword()});
-                urlText.setText(""); 
-           }      
+                urlText.setText("");
+            }
         }
-        
+
     }//GEN-LAST:event_searchButtonMouseClicked
 
     private void listAllButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listAllButtonMouseClicked
@@ -385,25 +378,25 @@ public class MainGUI extends javax.swing.JFrame {
                 return;
             }
         }
-        
-        JLabel jPassword = new JLabel ("Password: ");
+
+        JLabel jPassword = new JLabel("Password: ");
         JTextField password = new JPasswordField();
         Object[] ob = {jPassword, password};
         int result = JOptionPane.showConfirmDialog(null, ob, "Password?", JOptionPane.OK_CANCEL_OPTION);
-        
+
         if (result == JOptionPane.OK_OPTION) {
             String answer = password.getText();
             if (answer.equals("password")) {
-            /* Create and display the form */
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                public void run() {
-                    new MainGUI(list).setVisible(true);
-                }
-            });
+                /* Create and display the form */
+                java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                        new MainGUI(list).setVisible(true);
+                    }
+                });
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect Password, please try again!");
             }
-        }   
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
