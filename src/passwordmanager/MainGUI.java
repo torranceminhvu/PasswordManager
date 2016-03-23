@@ -250,10 +250,13 @@ public class MainGUI extends javax.swing.JFrame {
 
     private void clearButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearButtonMouseClicked
         try {
-            list.clear();
-            listAll();
-            JOptionPane.showMessageDialog(null, "Cleared");
-            save();
+            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to clear all?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                list.clear();
+                listAll();
+                JOptionPane.showMessageDialog(null, "Cleared");
+                save();
+            }
         } catch (IOException ex) {
             Logger.getLogger(MainGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
