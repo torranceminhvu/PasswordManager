@@ -1,21 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package passwordmanager;
 
 import java.io.Serializable;
 
 /**
  *
- * @author Minh
+ * @author Minh Vu
+ * Date: 3/23/16
  */
+
+/* Class that stores information on the url, username, and password */
 public class Website implements Serializable {
+    /* Information to be stored onto the password bank */
     private String url;
     private String username;
     private String password;
     
+    /* Constructor to initalize information */
     public Website(String url, String username, String password) {
         this.url = url;
         this.username = username;

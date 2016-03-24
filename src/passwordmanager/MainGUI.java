@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package passwordmanager;
 
 import java.awt.Font;
@@ -26,17 +22,21 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Minh
+ * @author Minh Vu
+ * Date:  3/23/16
  */
 public class MainGUI extends javax.swing.JFrame {
 
+    /* Copy of the list of website passed in through main method */
     private ListOfWebsites list;
+    
+    /* instance variable for model for JTable */
     private DefaultTableModel model;
 
     /**
-     * Creates new form MainGUI
+     * Creates new form MainGUI, and display all entries onto table
      *
-     * @param l
+     * @param l, the list of website passed in through main method
      */
     public MainGUI(ListOfWebsites l) {
         initComponents();
@@ -73,7 +73,7 @@ public class MainGUI extends javax.swing.JFrame {
         aboutText1 = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setTitle("Password Manager");
 
         urlLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         urlLabel.setText("URL");
@@ -223,12 +223,17 @@ public class MainGUI extends javax.swing.JFrame {
             pack();
         }// </editor-fold>//GEN-END:initComponents
 
+    /* mouse event button click for insert button */
     private void insertButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_insertButtonMouseClicked
         try {
+            /* get the url, username, and password from Jtext */
             String URL = urlText.getText();
             String username = usernameText.getText();
             String password = passwordText.getText();
 
+            /* call insert on list and reset the edit box text and save the data
+            to file, and then list the data to table 
+            */
             list.insert(URL, username, password);
             urlText.setText("");
             usernameText.setText("");
@@ -241,8 +246,12 @@ public class MainGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_insertButtonMouseClicked
 
+    /* mouse event button click for clear button */
     private void clearButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clearButtonMouseClicked
         try {
+            /* Alert to check if user wants to clear or not, if so it will clear
+            all data from the list and save
+            */
             int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to clear all?", "Confirmation", JOptionPane.YES_NO_OPTION);
             if (result == JOptionPane.YES_OPTION) {
                 list.clear();
@@ -255,8 +264,12 @@ public class MainGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_clearButtonMouseClicked
 
+    /* mouse event button click for delete button */
     private void deleteButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteButtonMouseClicked
         try {
+            /* checks to see if url could be found or not, if found, it will 
+            reset edit text box and list all entries to table and save
+            */
             boolean check = list.delete(urlText.getText());
             if (check == false) {
                 JOptionPane.showMessageDialog(null, "URL could not be found!");
@@ -273,11 +286,15 @@ public class MainGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteButtonMouseClicked
 
+    /* mouse event button click for update button */
     private void updateButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateButtonMouseClicked
         try {
             String URL = urlText.getText();
             String username = usernameText.getText();
             String password = passwordText.getText();
+            /* checks for valid input, if valid reset edit text box and list all
+            entries to table and save
+            */
             if (!urlText.getText().equals("")) {
                 Website w = list.update(URL, username, password);
                 if (w == null) {
@@ -297,9 +314,12 @@ public class MainGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_updateButtonMouseClicked
 
+    /* mouse event button click for search button */
     private void searchButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchButtonMouseClicked
         Website w;
-
+        /* check for correct input, if so clear the table and show the entry
+        that was found through search
+        */
         if (!urlText.getText().equals("")) {
             w = list.search(urlText.getText());
             if (w == null) {
@@ -315,6 +335,7 @@ public class MainGUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_searchButtonMouseClicked
 
+    /* mouse event button click for list all button, list all entries to table */
     private void listAllButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listAllButtonMouseClicked
         try {
             listAll();
@@ -324,13 +345,17 @@ public class MainGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_listAllButtonMouseClicked
 
+    /* function that populates JTable from list */
     private void listAll() {
         model.setRowCount(0);
         for (Website w : list.getList()) {
             model.addRow(new String[]{w.getUrl(), w.getUsername(), w.getPassword()});
         }
     }
-
+    
+    /* Function that uses serialization to store list object to a file called
+    database.ser in the current directory that the application is in
+    */
     private void save() throws IOException {
         try {
             FileOutputStream fos = new FileOutputStream("database.ser");
@@ -352,7 +377,9 @@ public class MainGUI extends javax.swing.JFrame {
         ListOfWebsites list;
 
         File f = new File("database.ser");
-        // if successfully created
+        /* if file is successfully created and had not exist before then
+        write new list object out to file 
+        */
         if (f.createNewFile()) {
             list = new ListOfWebsites();
             try {
@@ -364,13 +391,12 @@ public class MainGUI extends javax.swing.JFrame {
             } catch (IOException i) {
                 i.printStackTrace(System.out);
             }
-        } // file already exists
+        } /* if file already exists read object from file */
         else {
             try {
                 FileInputStream fis = new FileInputStream("database.ser");
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 list = (ListOfWebsites) ois.readObject();
-
                 ois.close();
                 fis.close();
             } catch (IOException | ClassNotFoundException i) {
@@ -379,13 +405,18 @@ public class MainGUI extends javax.swing.JFrame {
             }
         }
 
-        JLabel jPassword = new JLabel("Password: ");
+        /* GUI component asking the user for password of application, for testing
+        purposes the password will be set to password
+        */
+        JLabel jPassword = new JLabel("Password: (For testing purposes pw is password) ");
         JTextField password = new JPasswordField();
         Object[] ob = {jPassword, password};
         int result = JOptionPane.showConfirmDialog(null, ob, "Password?", JOptionPane.OK_CANCEL_OPTION);
 
+        /* if user press OK */
         if (result == JOptionPane.OK_OPTION) {
             String answer = password.getText();
+            /* if answer is the correct password, run the main GUI */
             if (answer.equals("password")) {
                 /* Create and display the form */
                 java.awt.EventQueue.invokeLater(new Runnable() {
@@ -393,7 +424,7 @@ public class MainGUI extends javax.swing.JFrame {
                         new MainGUI(list).setVisible(true);
                     }
                 });
-            } else {
+            } else { // if incorrect password, close program
                 JOptionPane.showMessageDialog(null, "Incorrect Password, please try again!");
             }
         }
