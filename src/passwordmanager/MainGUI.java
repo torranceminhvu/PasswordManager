@@ -40,6 +40,7 @@ public class MainGUI extends javax.swing.JFrame {
      */
     public MainGUI(ListOfWebsites l) {
         initComponents();
+        this.setLocationRelativeTo(null);
         list = l;
         listAll();
     }
