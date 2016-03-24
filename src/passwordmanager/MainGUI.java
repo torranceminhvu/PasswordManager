@@ -1,4 +1,3 @@
-
 package passwordmanager;
 
 import java.awt.Font;
