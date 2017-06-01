@@ -1,6 +1,5 @@
 # PasswordManager
-To run the executable, clone to netbean and run, or download the jar file from here:
-https://www.dropbox.com/s/mhrz8ukc5t38rzy/PasswordManager.jar?dl=0
+To run the executable, clone to netbean and run
 
 3/23/16 Update - Finished commenting, done with this project for now
 3/23/16 Update - Added Confirmation for clear button, will prompt user if they want to clear or not.
